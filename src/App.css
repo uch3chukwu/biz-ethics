@@ -1,0 +1,1081 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap");
+
+:root {
+  --wine: #5a1828;
+  --wine-dark: #321019;
+  --wine-light: #7a293d;
+  --cream: #f3ebdd;
+  --off-white: #faf8f3;
+  --ink: #181515;
+  --muted: #756b66;
+  --line: rgba(24, 21, 21, 0.13);
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  margin: 0;
+  background: var(--off-white);
+  color: var(--ink);
+  font-family: "Manrope", sans-serif;
+}
+
+button,
+a {
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site {
+  overflow: hidden;
+}
+
+.container {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  border-bottom: 1px solid rgba(24, 21, 21, 0.12);
+}
+
+.nav-inner {
+  min-height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: var(--wine);
+  color: var(--cream);
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 500;
+  font-size: 17px;
+}
+
+.brand-name {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.brand-name span {
+  opacity: 0.45;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+}
+
+.nav-links button {
+  background: transparent;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.nav-links button:hover {
+  color: var(--wine);
+}
+
+.nav-contact {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 17px;
+  background: var(--wine) !important;
+  color: var(--cream) !important;
+}
+
+.nav-contact:hover {
+  background: var(--wine-dark) !important;
+}
+
+.menu-toggle {
+  display: none;
+  background: transparent;
+  padding: 5px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+  min-height: 780px;
+  background: var(--cream);
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 130px 0 80px;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 70px;
+  align-items: center;
+}
+
+.eyebrow,
+.section-number {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.11em;
+  color: var(--wine);
+}
+
+.section-number span {
+  color: #f3ebdd;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+
+.eyebrow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--wine);
+}
+
+.hero h1 {
+  margin: 0;
+  max-width: 760px;
+  font-size: clamp(56px, 7vw, 96px);
+  line-height: 0.94;
+  letter-spacing: -0.055em;
+  font-weight: 800;
+}
+
+.hero h1 em {
+  color: var(--wine);
+  font-style: normal;
+}
+
+.hero-text {
+  max-width: 520px;
+  margin: 36px 0 30px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 11px;
+  flex-wrap: wrap;
+}
+
+.button {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 19px;
+  border: 1px solid transparent;
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    color 180ms ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.button-primary {
+  background: var(--wine);
+  color: var(--cream);
+}
+
+.button-primary:hover {
+  background: var(--wine-dark);
+}
+
+.button-secondary {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.button-secondary:hover {
+  background: rgba(90, 24, 40, 0.05);
+}
+
+.hero-location {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* =========================
+   HERO SYSTEM VISUAL
+========================= */
+
+.hero-visual {
+  position: relative;
+  min-height: 470px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.system-card {
+  width: min(100%, 460px);
+  min-height: 440px;
+  padding: 26px;
+  background: var(--wine-dark);
+  color: var(--cream);
+  position: relative;
+  box-shadow: 22px 22px 0 rgba(90, 24, 40, 0.13);
+}
+
+.system-header {
+  display: flex;
+  justify-content: space-between;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+}
+
+.system-title {
+  margin-top: 55px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid rgba(243, 235, 221, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.system-title span {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.system-title strong {
+  font-size: 28px;
+  font-weight: 800;
+  opacity: 0.2;
+}
+
+.system-flow {
+  margin-top: 25px;
+}
+
+.system-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 15px 0;
+}
+
+.system-icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(243, 235, 221, 0.25);
+}
+
+.system-item strong,
+.system-item span {
+  display: block;
+}
+
+.system-item strong {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.07em;
+}
+
+.system-item span {
+  margin-top: 5px;
+  font-size: 10px;
+  opacity: 0.45;
+}
+
+.flow-line {
+  width: 1px;
+  height: 22px;
+  margin-left: 24px;
+  background: rgba(243, 235, 221, 0.25);
+}
+
+.system-footer {
+  position: absolute;
+  bottom: 25px;
+  left: 26px;
+  right: 26px;
+  display: flex;
+  justify-content: space-between;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  opacity: 0.45;
+}
+
+.system-ready {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a7c98a;
+  opacity: 1;
+}
+
+/* =========================
+   WHO WE SERVE
+========================= */
+
+.audience-section {
+  background: var(--off-white);
+  border-bottom: 1px solid var(--line);
+}
+
+.audience-inner {
+  padding: 65px 0;
+  display: grid;
+  grid-template-columns: 0.45fr 1.55fr;
+  gap: 70px;
+}
+
+.audience-inner h3 {
+  max-width: 700px;
+  margin: 0;
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  font-weight: 800;
+}
+
+.audience-inner p {
+  max-width: 600px;
+  margin: 22px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* =========================
+   GENERAL SECTIONS
+========================= */
+
+.section {
+  padding: 120px 0;
+}
+
+.section-heading {
+  display: grid;
+  grid-template-columns: 1fr 0.7fr;
+  gap: 80px;
+  align-items: end;
+  margin-bottom: 65px;
+}
+
+.section-heading h2,
+.about-content h2,
+.cta-inner h2 {
+  margin: 18px 0 0;
+  font-size: clamp(40px, 4.8vw, 66px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  font-weight: 800;
+}
+
+.section-heading h2 em,
+.about-content h2 em,
+.cta-inner h2 em {
+  font-style: normal;
+}
+
+.section-heading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.75;
+  max-width: 410px;
+  letter-spacing: -0.01em;
+}
+
+/* =========================
+   SOLUTIONS
+========================= */
+
+.solutions {
+  background: var(--off-white);
+}
+
+.solution-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.solution-card {
+  min-height: 340px;
+  padding: 30px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  transition:
+    background 200ms ease,
+    color 200ms ease;
+}
+
+.solution-card:hover {
+  background: var(--wine);
+  color: var(--cream);
+}
+
+.solution-card:hover .solution-content p,
+.solution-card:hover .solution-icon {
+  color: rgba(243, 235, 221, 0.65);
+}
+
+.card-number {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  opacity: 0.45;
+}
+
+.solution-icon {
+  color: var(--wine);
+  margin-bottom: 80px;
+  transition: color 200ms ease;
+}
+
+.solution-content {
+  max-width: 430px;
+}
+
+.solution-content h3 {
+  margin: 0 0 12px;
+  font-size: 25px;
+  letter-spacing: -0.025em;
+}
+
+.solution-content p {
+  margin: 0 0 25px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+  transition: color 200ms ease;
+}
+
+.solution-content button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.large-card {
+  grid-row: span 2;
+  min-height: 680px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.wide-card {
+  min-height: 340px;
+}
+
+/* =========================
+   PRODUCTS
+========================= */
+
+.products-section {
+  background: var(--cream);
+}
+
+.product-list {
+  border-top: 1px solid var(--line);
+}
+
+.product-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 70px 1.1fr 1fr 30px;
+  gap: 20px;
+  align-items: center;
+  text-align: left;
+  padding: 25px 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  text-decoration: none;
+  transition:
+    padding 200ms ease,
+    color 200ms ease;
+}
+
+.product-row:hover {
+  padding-left: 12px;
+  color: var(--wine);
+}
+
+.product-index {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  opacity: 0.45;
+}
+
+.product-name {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.product-description {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.product-note {
+  margin-top: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.07em;
+}
+
+.product-note span {
+  color: var(--muted);
+}
+
+.product-note a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--wine);
+}
+
+/* =========================
+   ABOUT
+========================= */
+
+.about-section {
+  background: var(--off-white);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 0.55fr 1.45fr;
+  gap: 100px;
+}
+
+.about-label {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.about-stamp {
+  width: 130px;
+  height: 130px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transform: rotate(-8deg);
+  color: var(--wine);
+}
+
+.about-stamp span {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+}
+
+.about-stamp strong {
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.about-content {
+  max-width: 760px;
+}
+
+.about-content > p {
+  max-width: 650px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.8;
+  letter-spacing: -0.01em;
+}
+
+.about-points {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+}
+
+.about-points div {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+}
+
+.about-points svg {
+  color: var(--wine);
+}
+
+/* =========================
+   CTA
+========================= */
+
+.cta-section {
+  background: var(--wine-dark);
+  color: var(--cream);
+  padding: 110px 0;
+}
+
+.cta-inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 70px;
+}
+
+.cta-inner h2 {
+  color: var(--cream);
+}
+
+.cta-inner h2 em {
+  color: #d5aeb8;
+}
+
+.cta-inner p {
+  max-width: 480px;
+  margin: 30px 0 0;
+  color: rgba(243, 235, 221, 0.6);
+  line-height: 1.7;
+}
+
+.cta-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 200px;
+}
+
+.button-light {
+  background: var(--cream);
+  color: var(--wine-dark);
+}
+
+.button-outline-light {
+  border-color: rgba(243, 235, 221, 0.3);
+  color: var(--cream);
+}
+
+.button-outline-light:hover {
+  background: rgba(243, 235, 221, 0.08);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+  background: #211014;
+  color: var(--cream);
+  padding: 70px 0 25px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 80px;
+  padding-bottom: 70px;
+}
+
+.footer-logo .brand-mark {
+  background: var(--cream);
+  color: var(--wine-dark);
+}
+
+.footer-brand p {
+  margin-top: 22px;
+  color: rgba(243, 235, 221, 0.45);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.footer-title {
+  margin-bottom: 8px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  opacity: 0.4;
+}
+
+.footer-column a,
+.footer-column p {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  color: rgba(243, 235, 221, 0.7);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.footer-column a:hover {
+  color: var(--cream);
+}
+
+.footer-bottom {
+  padding-top: 20px;
+  border-top: 1px solid rgba(243, 235, 221, 0.1);
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  opacity: 0.4;
+}
+
+/* =========================
+   FLOATING WHATSAPP
+========================= */
+
+.floating-whatsapp {
+  display: none;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+  .container {
+    width: min(calc(100% - 36px), 700px);
+  }
+
+  .hero {
+    min-height: auto;
+    padding: 125px 0 75px;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 70px;
+  }
+
+  .hero h1 {
+    font-size: clamp(62px, 15vw, 100px);
+  }
+
+  .hero-visual {
+    min-height: 400px;
+  }
+
+  .system-card {
+    min-height: 400px;
+  }
+
+  .section {
+    padding: 85px 0;
+  }
+
+  .section-heading {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    margin-bottom: 45px;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 45px;
+  }
+
+  .about-label {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .cta-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-grid {
+    gap: 50px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+  .container {
+    width: calc(100% - 30px);
+  }
+
+  .navbar {
+    position: fixed;
+    background: rgba(243, 235, 221, 0.96);
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-inner {
+    min-height: 70px;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    padding: 20px 15px 25px;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+    background: var(--cream);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav-links.nav-open {
+    display: flex;
+  }
+
+  .nav-links button {
+    padding: 15px;
+    text-align: left;
+  }
+
+  .nav-contact {
+    justify-content: space-between;
+  }
+
+  .menu-toggle {
+    display: block;
+    color: var(--ink);
+  }
+
+  .hero {
+    padding-top: 115px;
+  }
+
+  .hero h1 {
+    font-size: clamp(52px, 15vw, 75px);
+  }
+
+  .hero-text {
+    margin-top: 28px;
+    font-size: 15px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .hero-visual {
+    min-height: 390px;
+  }
+
+  .system-card {
+    width: calc(100% - 20px);
+    min-height: 370px;
+    padding: 20px;
+  }
+
+  .system-title {
+    margin-top: 35px;
+  }
+
+  .system-footer {
+    left: 20px;
+    right: 20px;
+  }
+
+  .audience-inner {
+    padding: 45px 0;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .audience-inner h3 {
+    font-size: 32px;
+  }
+
+  .section {
+    padding: 75px 0;
+  }
+
+  .section-heading h2,
+  .about-content h2,
+  .cta-inner h2 {
+    font-size: clamp(38px, 11vw, 54px);
+  }
+
+  .solution-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .large-card {
+    grid-row: auto;
+    min-height: 340px;
+  }
+
+  .solution-card {
+    min-height: 330px;
+  }
+
+  .product-row {
+    grid-template-columns: 35px 1fr 25px;
+    gap: 12px;
+  }
+
+  .product-description {
+    display: none;
+  }
+
+  .product-note {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .about-points {
+    grid-template-columns: 1fr;
+  }
+
+  .about-stamp {
+    width: 110px;
+    height: 110px;
+  }
+
+  .cta-section {
+    padding: 80px 0;
+  }
+
+  .cta-actions {
+    width: 100%;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-bottom: 50px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+  }
+
+  .floating-whatsapp {
+    position: fixed;
+    z-index: 100;
+    right: 16px;
+    bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 16px;
+    background: var(--wine);
+    color: var(--cream);
+    box-shadow: 0 10px 30px rgba(50, 16, 25, 0.25);
+    font-size: 12px;
+    font-weight: 700;
+  }
+}
