@@ -7,6 +7,7 @@ export const categories = [
     description:
       "Routers, switches, wireless equipment, cables and networking accessories.",
   },
+
   {
     id: "cctv",
     number: "02",
@@ -15,6 +16,7 @@ export const categories = [
     description:
       "Cameras, NVRs, DVRs, storage and surveillance accessories.",
   },
+
   {
     id: "fibre",
     number: "03",
@@ -23,6 +25,7 @@ export const categories = [
     description:
       "Fibre equipment, terminal boxes, tools and connectivity solutions.",
   },
+
   {
     id: "access-security",
     number: "04",

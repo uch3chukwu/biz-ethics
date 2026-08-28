@@ -4,11 +4,15 @@
   --wine: #5a1828;
   --wine-dark: #321019;
   --wine-light: #7a293d;
+
   --cream: #f3ebdd;
   --off-white: #faf8f3;
+
   --ink: #181515;
   --muted: #756b66;
+
   --line: rgba(24, 21, 21, 0.13);
+
   --white: #ffffff;
 }
 
@@ -18,7 +22,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px;
+  scroll-padding-top: 90px;
 }
 
 body {
@@ -53,9 +57,9 @@ a {
   margin: 0 auto;
 }
 
-/* =========================
+/* =========================================================
    NAVIGATION
-========================= */
+========================================================= */
 
 .navbar {
   position: absolute;
@@ -111,7 +115,9 @@ a {
   gap: 34px;
 }
 
-.nav-links button {
+.nav-links button,
+.nav-links a {
+  padding: 0;
   background: transparent;
   color: var(--ink);
   font-size: 12px;
@@ -120,15 +126,16 @@ a {
   letter-spacing: 0.08em;
 }
 
-.nav-links button:hover {
+.nav-links button:hover,
+.nav-links a:hover {
   color: var(--wine);
 }
 
 .nav-contact {
-  display: flex;
+  display: flex !important;
   align-items: center;
   gap: 8px;
-  padding: 11px 17px;
+  padding: 11px 17px !important;
   background: var(--wine) !important;
   color: var(--cream) !important;
 }
@@ -143,9 +150,9 @@ a {
   padding: 5px;
 }
 
-/* =========================
+/* =========================================================
    HERO
-========================= */
+========================================================= */
 
 .hero {
   min-height: 780px;
@@ -171,22 +178,11 @@ a {
   color: var(--wine);
 }
 
-.section-number span {
-  color: #f3ebdd;
-}
-
 .eyebrow {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 26px;
-}
-
-.eyebrow-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--wine);
 }
 
 .hero h1 {
@@ -267,9 +263,9 @@ a {
   letter-spacing: 0.06em;
 }
 
-/* =========================
+/* =========================================================
    HERO SYSTEM VISUAL
-========================= */
+========================================================= */
 
 .hero-visual {
   position: relative;
@@ -387,12 +383,11 @@ a {
   height: 6px;
   border-radius: 50%;
   background: #a7c98a;
-  opacity: 1;
 }
 
-/* =========================
+/* =========================================================
    WHO WE SERVE
-========================= */
+========================================================= */
 
 .audience-section {
   background: var(--off-white);
@@ -423,9 +418,9 @@ a {
   line-height: 1.7;
 }
 
-/* =========================
+/* =========================================================
    GENERAL SECTIONS
-========================= */
+========================================================= */
 
 .section {
   padding: 120px 0;
@@ -461,12 +456,11 @@ a {
   font-size: 15px;
   line-height: 1.75;
   max-width: 410px;
-  letter-spacing: -0.01em;
 }
 
-/* =========================
+/* =========================================================
    SOLUTIONS
-========================= */
+========================================================= */
 
 .solutions {
   background: var(--off-white);
@@ -485,6 +479,10 @@ a {
   border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   transition:
     background 200ms ease,
     color 200ms ease;
@@ -497,7 +495,25 @@ a {
 
 .solution-card:hover .solution-content p,
 .solution-card:hover .solution-icon {
-  color: rgba(243, 235, 221, 0.65);
+  color: rgba(243, 235, 221, 0.7);
+}
+
+.solution-image {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.14;
+  filter: grayscale(100%);
+  transition:
+    opacity 250ms ease,
+    transform 500ms ease;
+}
+
+.solution-card:hover .solution-image {
+  opacity: 0.28;
+  transform: scale(1.04);
 }
 
 .card-number {
@@ -507,16 +523,21 @@ a {
   font-family: "IBM Plex Mono", monospace;
   font-size: 10px;
   opacity: 0.45;
+  z-index: 2;
 }
 
 .solution-icon {
   color: var(--wine);
-  margin-bottom: 80px;
+  margin-bottom: 70px;
+  position: relative;
+  z-index: 2;
   transition: color 200ms ease;
 }
 
 .solution-content {
   max-width: 430px;
+  position: relative;
+  z-index: 2;
 }
 
 .solution-content h3 {
@@ -533,32 +554,18 @@ a {
   transition: color 200ms ease;
 }
 
-.solution-content button {
+.solution-content a {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  padding: 0;
-  background: transparent;
   color: inherit;
   font-size: 12px;
   font-weight: 700;
 }
 
-.large-card {
-  grid-row: span 2;
-  min-height: 680px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.wide-card {
-  min-height: 340px;
-}
-
-/* =========================
-   PRODUCTS
-========================= */
+/* =========================================================
+   HOMEPAGE PRODUCTS
+========================================================= */
 
 .products-section {
   background: var(--cream);
@@ -577,9 +584,6 @@ a {
   text-align: left;
   padding: 25px 0;
   border-bottom: 1px solid var(--line);
-  background: transparent;
-  color: var(--ink);
-  text-decoration: none;
   transition:
     padding 200ms ease,
     color 200ms ease;
@@ -627,9 +631,9 @@ a {
   color: var(--wine);
 }
 
-/* =========================
+/* =========================================================
    ABOUT
-========================= */
+========================================================= */
 
 .about-section {
   background: var(--off-white);
@@ -637,43 +641,48 @@ a {
 
 .about-grid {
   display: grid;
-  grid-template-columns: 0.55fr 1.45fr;
-  gap: 100px;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 80px;
+  align-items: center;
 }
 
-.about-label {
+.about-image {
+  min-height: 600px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.about-stamp {
-  width: 130px;
-  height: 130px;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  transform: rotate(-8deg);
-  color: var(--wine);
+  background: var(--off-white);
 }
 
-.about-stamp span {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 8px;
-  letter-spacing: 0.1em;
+.about-image-frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
 }
 
-.about-stamp strong {
-  font-size: 25px;
-  font-weight: 800;
+.about-image-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter:
+    grayscale(100%)
+    contrast(0.95);
 }
 
+.about-image-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(90, 24, 40, 0.72),
+      rgba(50, 16, 25, 0.55)
+    );
+  mix-blend-mode: multiply;
+}
 .about-content {
-  max-width: 760px;
+  max-width: 720px;
 }
 
 .about-content > p {
@@ -702,11 +711,12 @@ a {
 
 .about-points svg {
   color: var(--wine);
+  flex-shrink: 0;
 }
 
-/* =========================
+/* =========================================================
    CTA
-========================= */
+========================================================= */
 
 .cta-section {
   background: var(--wine-dark);
@@ -757,9 +767,9 @@ a {
   background: rgba(243, 235, 221, 0.08);
 }
 
-/* =========================
+/* =========================================================
    FOOTER
-========================= */
+========================================================= */
 
 .footer {
   background: #211014;
@@ -827,17 +837,17 @@ a {
   opacity: 0.4;
 }
 
-/* =========================
+/* =========================================================
    FLOATING WHATSAPP
-========================= */
+========================================================= */
 
 .floating-whatsapp {
   display: none;
 }
 
-/* =========================
+/* =========================================================
    TABLET
-========================= */
+========================================================= */
 
 @media (max-width: 900px) {
   .container {
@@ -881,9 +891,8 @@ a {
     gap: 45px;
   }
 
-  .about-label {
-    flex-direction: row;
-    align-items: center;
+  .about-image {
+    min-height: 500px;
   }
 
   .cta-inner {
@@ -896,9 +905,9 @@ a {
   }
 }
 
-/* =========================
+/* =========================================================
    MOBILE
-========================= */
+========================================================= */
 
 @media (max-width: 700px) {
   .container {
@@ -933,7 +942,8 @@ a {
     display: flex;
   }
 
-  .nav-links button {
+  .nav-links button,
+  .nav-links a {
     padding: 15px;
     text-align: left;
   }
@@ -1012,11 +1022,6 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .large-card {
-    grid-row: auto;
-    min-height: 340px;
-  }
-
   .solution-card {
     min-height: 330px;
   }
@@ -1036,13 +1041,12 @@ a {
     gap: 14px;
   }
 
-  .about-points {
-    grid-template-columns: 1fr;
+  .about-image {
+    min-height: 360px;
   }
 
-  .about-stamp {
-    width: 110px;
-    height: 110px;
+  .about-points {
+    grid-template-columns: 1fr;
   }
 
   .cta-section {
@@ -1077,5 +1081,833 @@ a {
     box-shadow: 0 10px 30px rgba(50, 16, 25, 0.25);
     font-size: 12px;
     font-weight: 700;
+  }
+}
+
+/* =========================================================
+   ADMIN IMAGE UPLOAD
+========================================================= */
+
+.admin-image-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-image-field > span:first-child {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.admin-image-upload {
+  width: 100%;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px dashed var(--line);
+  background: var(--cream);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.admin-image-upload img {
+  width: 100%;
+  height: 260px;
+  display: block;
+  object-fit: contain;
+}
+
+.admin-image-field input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* =========================================================
+   ADMIN
+========================================================= */
+
+.admin-page {
+  min-height: 100vh;
+  padding: 110px 0 80px;
+  background: var(--cream);
+  color: var(--ink);
+}
+
+.admin-container {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.admin-login {
+  max-width: 560px;
+  min-height: calc(100vh - 190px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.admin-eyebrow,
+.admin-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--wine);
+}
+
+.admin-login h1,
+.admin-header h1 {
+  margin: 18px 0 45px;
+  font-size: clamp(48px, 6vw, 72px);
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+  font-weight: 800;
+}
+
+.admin-login h1 em,
+.admin-header h1 em {
+  color: var(--wine);
+  font-style: normal;
+}
+
+.admin-form,
+.admin-product-form,
+.manufacturer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.admin-form label,
+.admin-product-form > label,
+.admin-price-field > label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.admin-form input,
+.admin-product-form input,
+.admin-product-form select,
+.admin-product-form textarea,
+.manufacturer-form input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  outline: 0;
+  padding: 14px 15px;
+  background: var(--off-white);
+  color: var(--ink);
+  font-family: "Manrope", sans-serif;
+  font-size: 13px;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.admin-form input:focus,
+.admin-product-form input:focus,
+.admin-product-form select:focus,
+.admin-product-form textarea:focus,
+.manufacturer-form input:focus {
+  border-color: var(--wine);
+  background: var(--white);
+}
+
+.admin-product-form textarea {
+  resize: vertical;
+  min-height: 130px;
+  line-height: 1.7;
+}
+
+.admin-product-form select {
+  cursor: pointer;
+}
+
+.admin-form input::placeholder,
+.admin-product-form input::placeholder,
+.admin-product-form textarea::placeholder,
+.manufacturer-form input::placeholder {
+  color: var(--muted);
+  opacity: 0.65;
+}
+
+.admin-primary-button,
+.admin-secondary-button,
+.admin-danger-button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 17px;
+  border: 1px solid transparent;
+  font-size: 11px;
+  font-weight: 700;
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+.admin-primary-button {
+  background: var(--wine);
+  color: var(--cream);
+}
+
+.admin-primary-button:hover:not(:disabled) {
+  background: var(--wine-dark);
+  transform: translateY(-1px);
+}
+
+.admin-primary-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.admin-secondary-button {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.admin-secondary-button:hover {
+  border-color: var(--wine);
+  color: var(--wine);
+}
+
+.admin-danger-button {
+  background: transparent;
+  border-color: rgba(90, 24, 40, 0.25);
+  color: var(--wine);
+}
+
+.admin-danger-button:hover {
+  background: var(--wine);
+  border-color: var(--wine);
+  color: var(--cream);
+}
+
+/* =========================================================
+   ADMIN HEADER
+========================================================= */
+
+.admin-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  padding-bottom: 55px;
+  border-bottom: 1px solid var(--line);
+}
+
+.admin-header h1 {
+  margin-bottom: 0;
+}
+
+.admin-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.admin-header-actions > span {
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+}
+
+/* =========================================================
+   ADMIN MESSAGES
+========================================================= */
+
+.admin-message {
+  margin-top: 25px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.admin-message-error {
+  border-color: rgba(90, 24, 40, 0.3);
+  background: rgba(90, 24, 40, 0.05);
+  color: var(--wine);
+}
+
+.admin-message-success {
+  border-color: rgba(50, 16, 25, 0.15);
+  background: rgba(243, 235, 221, 0.8);
+  color: var(--wine-dark);
+}
+
+.admin-error {
+  margin: 0;
+  color: var(--wine);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   ADMIN LAYOUT
+========================================================= */
+
+.admin-layout {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 25px;
+  margin-top: 25px;
+}
+
+.admin-panel {
+  padding: 30px;
+  background: var(--off-white);
+  border: 1px solid var(--line);
+}
+
+.admin-products-panel {
+  margin-top: 25px;
+}
+
+.admin-panel-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 25px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.admin-panel-heading h2 {
+  margin: 8px 0 0;
+  font-size: 27px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.admin-help {
+  display: block;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 8px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   ADMIN IMAGE
+========================================================= */
+
+.admin-image-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-image-field > span:first-child {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.admin-image-upload {
+  width: 100%;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px dashed var(--line);
+  background: var(--cream);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.admin-image-upload:hover {
+  border-color: var(--wine);
+  color: var(--wine);
+}
+
+.admin-image-upload img {
+  width: 100%;
+  height: 280px;
+  display: block;
+  object-fit: contain;
+}
+
+.admin-image-field input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* =========================================================
+   ADMIN PRICE
+========================================================= */
+
+.admin-price-field {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-price-input {
+  display: flex;
+  align-items: stretch;
+}
+
+.admin-price-input > span {
+  min-width: 44px;
+  display: grid;
+  place-items: center;
+  background: var(--wine);
+  color: var(--cream);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+}
+
+.admin-price-input input {
+  flex: 1;
+}
+
+/* =========================================================
+   ADMIN CHECKBOXES
+========================================================= */
+
+.admin-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-top: 8px;
+}
+
+.admin-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.admin-checkbox input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--wine);
+}
+
+/* =========================================================
+   ADMIN FORM ACTIONS
+========================================================= */
+
+.admin-form-actions {
+  display: flex;
+  gap: 10px;
+  padding-top: 10px;
+}
+
+/* =========================================================
+   MANUFACTURERS
+========================================================= */
+
+.manufacturer-form {
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.manufacturer-form input {
+  min-width: 0;
+  flex: 1;
+}
+
+.manufacturer-form .admin-primary-button {
+  min-width: 72px;
+}
+
+.manufacturer-list {
+  margin-top: 25px;
+  border-top: 1px solid var(--line);
+}
+
+.manufacturer-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.admin-empty {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* =========================================================
+   ADMIN PRODUCTS
+========================================================= */
+
+.admin-count {
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.07em;
+}
+
+.admin-empty-products {
+  padding: 50px 0;
+}
+
+.admin-empty-products h3 {
+  margin: 0 0 10px;
+  font-size: 22px;
+}
+
+.admin-empty-products p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.admin-product-list {
+  border-top: 1px solid var(--line);
+}
+
+.admin-product-row {
+  display: grid;
+  grid-template-columns: 1.3fr 0.8fr auto;
+  align-items: center;
+  gap: 25px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.admin-product-main {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.admin-product-placeholder {
+  width: 74px;
+  height: 74px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #f0ebe3;
+  border: 1px solid var(--line);
+}
+
+.admin-product-placeholder img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+.admin-product-placeholder span {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 7px;
+  color: var(--muted);
+}
+
+.admin-product-brand {
+  display: block;
+  margin-bottom: 5px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  color: var(--wine);
+  text-transform: uppercase;
+}
+
+.admin-product-main h3 {
+  margin: 0 0 5px;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.admin-product-model {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 8px;
+  color: var(--muted);
+}
+
+.admin-product-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 8px;
+  color: var(--muted);
+}
+
+.status-available {
+  color: #4e7540;
+}
+
+.status-unavailable {
+  color: var(--wine);
+}
+
+.admin-product-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+/* =========================================================
+   ADMIN MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .admin-product-row {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+
+  .admin-product-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 700px) {
+  .admin-page {
+    padding: 100px 0 60px;
+  }
+
+  .admin-container {
+    width: calc(100% - 30px);
+  }
+
+  .admin-panel {
+    padding: 22px;
+  }
+
+  .admin-header h1,
+  .admin-login h1 {
+    font-size: clamp(42px, 12vw, 58px);
+  }
+
+  .admin-header-actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-header-actions .admin-secondary-button {
+    width: 100%;
+  }
+
+  .manufacturer-form {
+    flex-direction: column;
+  }
+
+  .manufacturer-form .admin-primary-button {
+    width: 100%;
+  }
+
+  .admin-image-upload,
+  .admin-image-upload img {
+    min-height: 220px;
+    height: 220px;
+  }
+
+  .admin-checkboxes {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .admin-form-actions {
+    flex-direction: column;
+  }
+
+  .admin-form-actions button {
+    width: 100%;
+  }
+
+  .admin-product-actions {
+    width: 100%;
+  }
+
+  .admin-product-actions button {
+    flex: 1;
+  }
+}
+
+/* =========================================================
+   ADMIN FILTERS
+========================================================= */
+
+.admin-filters {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 0.9fr auto;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 30px;
+  padding: 18px;
+  background: var(--cream);
+  border: 1px solid var(--line);
+}
+
+.admin-search,
+.admin-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.admin-search label,
+.admin-filter-group label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.admin-search input,
+.admin-filter-group select {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  outline: 0;
+  background: var(--off-white);
+  color: var(--ink);
+  font-size: 11px;
+}
+
+.admin-search input:focus,
+.admin-filter-group select:focus {
+  border-color: var(--wine);
+}
+
+.admin-clear-filters {
+  min-height: 42px;
+  padding: 0 12px;
+  background: transparent;
+  color: var(--wine);
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.admin-clear-filters:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   ADMIN FILTER RESPONSIVENESS
+========================================================= */
+
+@media (max-width: 900px) {
+  .admin-filters {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .admin-search {
+    grid-column: 1 / -1;
+  }
+
+  .admin-clear-filters {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 700px) {
+  .admin-filters {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .admin-search {
+    grid-column: auto;
+  }
+
+  .admin-clear-filters {
+    justify-self: start;
+    padding-left: 0;
+  }
+}
+
+/* =========================================================
+   MANUFACTURER ACTIONS
+========================================================= */
+
+.manufacturer-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.manufacturer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+  flex-shrink: 0;
+}
+
+.manufacturer-item-editing {
+  align-items: stretch;
+}
+
+.manufacturer-item-editing > input {
+  min-width: 0;
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  outline: 0;
+  padding: 10px 12px;
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 11px;
+}
+
+.manufacturer-item-editing > input:focus {
+  border-color: var(--wine);
+}
+
+@media (max-width: 700px) {
+  .manufacturer-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .manufacturer-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .manufacturer-actions button {
+    flex: 1;
+  }
+
+  .manufacturer-item-editing {
+    align-items: stretch;
   }
 }

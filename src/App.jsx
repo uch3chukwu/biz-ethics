@@ -3,42 +3,32 @@ import {
   Camera,
   CheckCircle2,
   ChevronRight,
-  Mail,
   MapPin,
-  Menu,
   MessageCircle,
   Network,
   Phone,
   ShieldCheck,
   Wrench,
-  X,
 } from "lucide-react";
 
-import { useState } from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
 
-import Products from "./pages/Products.jsx";
+import {
+  Link,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
+
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Products from "./pages/Products";
+import Admin from "./pages/Admin";
+
 import "./App.css";
 
 function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const closeMenu = () => {
-    setMenuOpen(false);
-  };
-
-  const scrollToSection = (id) => {
-    const section = document.getElementById(id);
-
-    if (section) {
-      section.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-
-      closeMenu();
-    }
-  };
+  const location = useLocation();
 
   const generalMessage = encodeURIComponent(
     "Hello Biz-Ethics, I would like to make an enquiry about your products/services."
@@ -52,68 +42,40 @@ function Home() {
     "Hello Biz-Ethics, I'm looking for networking/security equipment. Can you help?"
   );
 
+  useEffect(() => {
+    if (!location.hash) {
+      return;
+    }
+
+    const id = location.hash.substring(1);
+
+    const timer = setTimeout(() => {
+      const section = document.getElementById(id);
+
+      if (section) {
+        section.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, 80);
+
+    return () => clearTimeout(timer);
+  }, [location]);
+
   return (
     <div className="site">
-      {/* =========================
-          NAVIGATION
-      ========================= */}
-
-      <header className="navbar">
-        <div className="container nav-inner">
-          <button
-            className="brand"
-            onClick={() => scrollToSection("home")}
-            aria-label="Biz-Ethics home"
-          >
-            <span className="brand-mark">B</span>
-
-            <span className="brand-name">
-              BIZ<span>-</span>ETHICS
-            </span>
-          </button>
-
-          <nav className={`nav-links ${menuOpen ? "nav-open" : ""}`}>
-            <button onClick={() => scrollToSection("home")}>
-              Home
-            </button>
-
-            <button onClick={() => scrollToSection("solutions")}>
-              Solutions
-            </button>
-
-            <button onClick={() => scrollToSection("products")}>
-              Products
-            </button>
-
-            <button onClick={() => scrollToSection("about")}>
-              About
-            </button>
-
-            <button
-              className="nav-contact"
-              onClick={() => scrollToSection("contact")}
-            >
-              Contact
-              <ArrowUpRight size={16} />
-            </button>
-          </nav>
-
-          <button
-            className="menu-toggle"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle navigation"
-          >
-            {menuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </header>
+      <Navbar />
 
       <main>
         {/* =========================
             HERO
         ========================= */}
 
-        <section className="hero" id="home">
+        <section
+          className="hero"
+          id="home"
+        >
           <div className="container hero-grid">
             <div className="hero-content">
               <div className="eyebrow">
@@ -129,9 +91,9 @@ function Home() {
               </h1>
 
               <p className="hero-text">
-                We supply, install and support networking, CCTV and
-                security systems for homes, offices and businesses
-                in and out of Lagos.
+                We supply, install and support networking,
+                CCTV and security systems for homes,
+                offices and businesses in and out of Lagos.
               </p>
 
               <div className="hero-actions">
@@ -145,22 +107,22 @@ function Home() {
                   Contact us
                 </a>
 
-                <button
+                <a
+                  href="#solutions"
                   className="button button-secondary"
-                  onClick={() => scrollToSection("solutions")}
                 >
                   View our services
                   <ArrowUpRight size={18} />
-                </button>
+                </a>
               </div>
 
               <div className="hero-location">
                 <MapPin size={15} />
-                <span>Computer Village, Ikeja · Lagos</span>
+                <span>
+                  7, Otigba Street, Computer Village, Ikeja · Lagos
+                </span>
               </div>
             </div>
-
-            {/* HERO SYSTEM VISUAL */}
 
             <div className="hero-visual">
               <div className="system-card">
@@ -170,7 +132,10 @@ function Home() {
                 </div>
 
                 <div className="system-title">
-                  <span>CONNECTED INFRASTRUCTURE</span>
+                  <span>
+                    CONNECTED INFRASTRUCTURE
+                  </span>
+
                   <strong>01</strong>
                 </div>
 
@@ -186,7 +151,7 @@ function Home() {
                     </div>
                   </div>
 
-                  <div className="flow-line"></div>
+                  <div className="flow-line" />
 
                   <div className="system-item">
                     <div className="system-icon">
@@ -199,7 +164,7 @@ function Home() {
                     </div>
                   </div>
 
-                  <div className="flow-line"></div>
+                  <div className="flow-line" />
 
                   <div className="system-item">
                     <div className="system-icon">
@@ -215,7 +180,7 @@ function Home() {
 
                 <div className="system-footer">
                   <span className="system-ready">
-                    <span className="live-dot"></span>
+                    <span className="live-dot" />
                     SYSTEM READY
                   </span>
 
@@ -244,8 +209,9 @@ function Home() {
               </h3>
 
               <p>
-                We work with homeowners, businesses, schools,
-                churches, hotels, contractors and IT companies.
+                We work with homeowners, businesses,
+                schools, churches, hotels, contractors
+                and IT companies.
               </p>
             </div>
           </div>
@@ -255,7 +221,10 @@ function Home() {
             SOLUTIONS
         ========================= */}
 
-        <section className="section solutions" id="solutions">
+        <section
+          className="section solutions"
+          id="solutions"
+        >
           <div className="container">
             <div className="section-heading">
               <div>
@@ -271,14 +240,24 @@ function Home() {
               </div>
 
               <p>
-                From equipment supply to complete installations,
-                we help homes, offices and organizations build,
-                secure and maintain their technical infrastructure.
+                From equipment supply to complete
+                installations, we help homes, offices
+                and organizations build, secure and
+                maintain their technical infrastructure.
               </p>
             </div>
 
             <div className="solution-grid">
-              <article className="solution-card large-card">
+              <article className="solution-card">
+                <div
+                  className="solution-image"
+                  style={{
+                    backgroundImage:
+                      "url('/images/solutions/networking.jpg')",
+                  }}
+                  aria-hidden="true"
+                />
+
                 <div className="card-number">01</div>
 
                 <div className="solution-icon">
@@ -289,20 +268,28 @@ function Home() {
                   <h3>Networking</h3>
 
                   <p>
-                    Reliable wired and wireless networks for homes,
-                    offices and larger installations.
+                    Reliable wired and wireless networks
+                    for homes, offices and larger
+                    installations.
                   </p>
 
-                  <button
-                    onClick={() => scrollToSection("contact")}
-                  >
+                  <a href="#contact">
                     Tell us about that network
                     <ArrowUpRight size={16} />
-                  </button>
+                  </a>
                 </div>
               </article>
 
               <article className="solution-card">
+                <div
+                  className="solution-image"
+                  style={{
+                    backgroundImage:
+                      "url('/images/solutions/cctv.jpg')",
+                  }}
+                  aria-hidden="true"
+                />
+
                 <div className="card-number">02</div>
 
                 <div className="solution-icon">
@@ -313,20 +300,28 @@ function Home() {
                   <h3>CCTV & Surveillance</h3>
 
                   <p>
-                    Supply and installation of surveillance systems
-                    designed around your space.
+                    Supply and installation of
+                    surveillance systems designed
+                    around your space.
                   </p>
 
-                  <button
-                    onClick={() => scrollToSection("contact")}
-                  >
+                  <a href="#contact">
                     Get a quote
                     <ArrowUpRight size={16} />
-                  </button>
+                  </a>
                 </div>
               </article>
 
               <article className="solution-card">
+                <div
+                  className="solution-image"
+                  style={{
+                    backgroundImage:
+                      "url('/images/solutions/security.jpg')",
+                  }}
+                  aria-hidden="true"
+                />
+
                 <div className="card-number">03</div>
 
                 <div className="solution-icon">
@@ -337,20 +332,27 @@ function Home() {
                   <h3>Security Systems</h3>
 
                   <p>
-                    Access control and related security equipment
-                    for homes and organizations.
+                    Access control and related security
+                    equipment for homes and organizations.
                   </p>
 
-                  <button
-                    onClick={() => scrollToSection("contact")}
-                  >
+                  <a href="#contact">
                     Make an enquiry
                     <ArrowUpRight size={16} />
-                  </button>
+                  </a>
                 </div>
               </article>
 
-              <article className="solution-card wide-card">
+              <article className="solution-card">
+                <div
+                  className="solution-image"
+                  style={{
+                    backgroundImage:
+                      "url('/images/solutions/installation.jpg')",
+                  }}
+                  aria-hidden="true"
+                />
+
                 <div className="card-number">04</div>
 
                 <div className="solution-icon">
@@ -363,17 +365,16 @@ function Home() {
                   </h3>
 
                   <p>
-                    Already have a system that isn't behaving?
-                    We diagnose network and surveillance issues
-                    and get things back on track.
+                    Already have a system that isn't
+                    behaving? We diagnose network and
+                    surveillance issues and get things
+                    back on track.
                   </p>
 
-                  <button
-                    onClick={() => scrollToSection("contact")}
-                  >
+                  <a href="#contact">
                     Talk to a technician
                     <ArrowUpRight size={16} />
-                  </button>
+                  </a>
                 </div>
               </article>
             </div>
@@ -381,7 +382,7 @@ function Home() {
         </section>
 
         {/* =========================
-            PRODUCTS
+            PRODUCTS PREVIEW
         ========================= */}
 
         <section
@@ -403,18 +404,21 @@ function Home() {
               </div>
 
               <p>
-                Looking for networking, CCTV, fibre or security
-                equipment? Tell us what you need and we'll help
-                you find the right hardware.
+                Looking for networking, CCTV, fibre
+                or security equipment? Tell us what
+                you need and we'll help you find the
+                right hardware.
               </p>
             </div>
 
             <div className="product-list">
               <Link
-                to="/products?category=networking"
+                to="/products#networking"
                 className="product-row"
               >
-                <span className="product-index">01</span>
+                <span className="product-index">
+                  01
+                </span>
 
                 <span className="product-name">
                   Networking Equipment
@@ -428,10 +432,12 @@ function Home() {
               </Link>
 
               <Link
-                to="/products?category=cctv"
+                to="/products#cctv"
                 className="product-row"
               >
-                <span className="product-index">02</span>
+                <span className="product-index">
+                  02
+                </span>
 
                 <span className="product-name">
                   CCTV & Recording
@@ -445,10 +451,12 @@ function Home() {
               </Link>
 
               <Link
-                to="/products?category=fibre"
+                to="/products#fibre"
                 className="product-row"
               >
-                <span className="product-index">03</span>
+                <span className="product-index">
+                  03
+                </span>
 
                 <span className="product-name">
                   Fibre & FTTH
@@ -462,10 +470,12 @@ function Home() {
               </Link>
 
               <Link
-                to="/products?category=access-security"
+                to="/products#access-security"
                 className="product-row"
               >
-                <span className="product-index">04</span>
+                <span className="product-index">
+                  04
+                </span>
 
                 <span className="product-name">
                   Access & Security
@@ -480,7 +490,9 @@ function Home() {
             </div>
 
             <div className="product-note">
-              <span>CAN'T FIND WHAT YOU NEED?</span>
+              <span>
+                CAN'T FIND WHAT YOU NEED?
+              </span>
 
               <a
                 href={`https://wa.me/2348033883255?text=${productMessage}`}
@@ -503,18 +515,20 @@ function Home() {
           id="about"
         >
           <div className="container about-grid">
-            <div className="about-label">
+          <div className="about-image">
+  <div className="about-image-frame">
+    <img
+      src="/images/about-network.jpg"
+      alt="Networking infrastructure"
+    />
+  </div>
+</div>
+
+            <div className="about-content">
               <span className="section-number">
                 03 / BIZ-ETHICS
               </span>
 
-              <div className="about-stamp">
-                <span>BASED IN</span>
-                <strong>LAGOS</strong>
-              </div>
-            </div>
-
-            <div className="about-content">
               <h2>
                 We make the
                 <br />
@@ -524,32 +538,40 @@ function Home() {
               </h2>
 
               <p>
-                We provide networking, surveillance and security
-                equipment alongside the technical support to
-                install, configure and maintain it.
+                We provide networking, surveillance
+                and security equipment alongside the
+                technical support to install, configure
+                and maintain it.
               </p>
 
               <p>
-                Whether you're connecting a home, setting up an
-                office, securing a school or building infrastructure
-                for a larger project, we help you choose the right
+                Whether you're connecting a home,
+                setting up an office, securing a school
+                or building infrastructure for a larger
+                project, we help you choose the right
                 equipment and put it to work.
               </p>
 
               <div className="about-points">
                 <div>
                   <CheckCircle2 size={18} />
-                  <span>Equipment supply</span>
+                  <span>
+                    Equipment supply
+                  </span>
                 </div>
 
                 <div>
                   <CheckCircle2 size={18} />
-                  <span>Professional installation</span>
+                  <span>
+                    Professional installation
+                  </span>
                 </div>
 
                 <div>
                   <CheckCircle2 size={18} />
-                  <span>Technical troubleshooting</span>
+                  <span>
+                    Technical troubleshooting
+                  </span>
                 </div>
               </div>
             </div>
@@ -560,11 +582,14 @@ function Home() {
             CONTACT CTA
         ========================= */}
 
-        <section className="cta-section" id="contact">
+        <section
+          className="cta-section"
+          id="contact"
+        >
           <div className="container cta-inner">
             <div>
-              <span className="section-number">
-                <span>04 / START A PROJECT</span>
+              <span className="section-number cta-number">
+                04 / START A PROJECT
               </span>
 
               <h2>
@@ -574,8 +599,9 @@ function Home() {
               </h2>
 
               <p>
-                Tell us what you're trying to build, fix or secure.
-                We'll figure out the technical side.
+                Tell us what you're trying to build,
+                fix or secure. We'll figure out the
+                technical side.
               </p>
             </div>
 
@@ -602,77 +628,7 @@ function Home() {
         </section>
       </main>
 
-      {/* =========================
-          FOOTER
-      ========================= */}
-
-      <footer className="footer">
-        <div className="container footer-grid">
-          <div className="footer-brand">
-            <div className="brand footer-logo">
-              <span className="brand-mark">B</span>
-
-              <span className="brand-name">
-                BIZ<span>-</span>ETHICS
-              </span>
-            </div>
-
-            <p>
-              Networking, surveillance
-              <br />
-              & security infrastructure.
-            </p>
-          </div>
-
-          <div className="footer-column">
-            <span className="footer-title">
-              CONTACT
-            </span>
-
-            <a href="tel:08033883255">
-              <Phone size={15} />
-              0803 388 3255
-            </a>
-
-            <a href="tel:08023036619">
-              <Phone size={15} />
-              0802 303 6619
-            </a>
-
-            <a href="mailto:ethicsv@gmail.com">
-              <Mail size={15} />
-              ethicsv@gmail.com
-            </a>
-          </div>
-
-          <div className="footer-column">
-            <span className="footer-title">
-              LOCATION
-            </span>
-
-            <p>
-              <MapPin size={15} />
-              7, Otigba Street
-              <br />
-              Computer Village, Ikeja
-              <br />
-              Lagos, Nigeria
-            </p>
-          </div>
-        </div>
-
-        <div className="container footer-bottom">
-          <span>
-            © {new Date().getFullYear()} Biz-Ethics Ltd.
-          </span>
-
-          <span>
-            NETWORKS / SECURITY / INFRASTRUCTURE
-          </span>
-        </div>
-      </footer>
-
-      {/* MOBILE WHATSAPP */}
+      <Footer />
 
       <a
         href={`https://wa.me/2348033883255?text=${generalMessage}`}
@@ -692,9 +648,17 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/products" element={<Products />} />
+
+      <Route
+        path="/products"
+        element={<Products />}
+      />
+
+      <Route
+        path="/admin"
+        element={<Admin />}
+      />
     </Routes>
   );
 }
-
 export default App;
