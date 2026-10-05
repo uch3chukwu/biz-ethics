@@ -18,9 +18,9 @@ function Footer() {
           </div>
 
           <p>
-            Networking, surveillance
+            Connected, powered and monitored
             <br />
-            & security infrastructure.
+            infrastructure for every space.
           </p>
         </div>
 
@@ -70,7 +70,7 @@ function Footer() {
         </span>
 
         <span>
-          NETWORKS / SECURITY / INFRASTRUCTURE
+          FIBRE / CABLING / CCTV / POWER / SUPPORT
         </span>
       </div>
     </footer>

@@ -75,21 +75,13 @@ function Navbar() {
             menuOpen ? "nav-open" : ""
           }`}
         >
-          <button onClick={handleHome}>
-            Home
+          <button
+            onClick={() => handleSection("services")}
+          >
+            Services
           </button>
 
-          <button
-            onClick={() => handleSection("about")}
-          >
-            About
-          </button>
-
-          <button
-            onClick={() => handleSection("solutions")}
-          >
-            Solutions
-          </button>
+          <button onClick={() => handleSection("solutions")}>Solutions</button>
 
           <Link
             to="/products"
@@ -97,6 +89,8 @@ function Navbar() {
           >
             Products
           </Link>
+
+          <button onClick={() => handleSection("about")}>About</button>
 
           <button
             className="nav-contact"

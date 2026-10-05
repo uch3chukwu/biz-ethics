@@ -155,7 +155,7 @@ a {
 ========================================================= */
 
 .hero {
-  min-height: 780px;
+  min-height: 740px;
   background: var(--cream);
   position: relative;
   display: flex;
@@ -188,10 +188,14 @@ a {
 .hero h1 {
   margin: 0;
   max-width: 760px;
-  font-size: clamp(56px, 7vw, 96px);
+  font-size: clamp(54px, 6vw, 82px);
   line-height: 0.94;
   letter-spacing: -0.055em;
   font-weight: 800;
+}
+
+.hero h1 em {
+  display: block;
 }
 
 .hero h1 em {
@@ -395,7 +399,7 @@ a {
 }
 
 .audience-inner {
-  padding: 65px 0;
+  padding: 52px 0;
   display: grid;
   grid-template-columns: 0.45fr 1.55fr;
   gap: 70px;
@@ -567,8 +571,189 @@ a {
    HOMEPAGE PRODUCTS
 ========================================================= */
 
+/* =========================================================
+   CORE SERVICES
+========================================================= */
+
+.services-section {
+  background: var(--off-white);
+  padding-top: 80px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.service-card {
+  grid-column: span 2;
+  min-height: 390px;
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  transition: color 200ms ease, background 200ms ease;
+}
+
+.service-card:nth-child(4),
+.service-card:nth-child(5) {
+  grid-column: span 3;
+}
+
+.service-card:hover {
+  background: var(--wine);
+  color: var(--cream);
+}
+
+.service-image {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  filter: grayscale(100%);
+  opacity: 0.22;
+  transition: opacity 250ms ease, transform 500ms ease;
+}
+
+.service-card:hover .service-image {
+  opacity: 0.36;
+  transform: scale(1.04);
+}
+
+.service-top,
+.service-content {
+  position: relative;
+  z-index: 1;
+}
+
+.service-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  color: var(--wine);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 10px;
+  transition: color 200ms ease;
+}
+
+.service-card:hover .service-top {
+  color: var(--cream);
+}
+
+.service-content h3 {
+  margin: 0 0 14px;
+  font-size: 25px;
+  letter-spacing: -0.03em;
+}
+
+.service-content p {
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+  transition: color 200ms ease;
+}
+
+.service-card:hover .service-content p {
+  color: rgba(243, 235, 221, 0.75);
+}
+
+.service-details {
+  display: block;
+  padding-top: 18px;
+  border-top: 1px solid currentColor;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 8px;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  opacity: 0.65;
+}
+
+/* =========================================================
+   ENVIRONMENTS
+========================================================= */
+
+.solutions-section {
+  background: var(--wine-dark);
+  color: var(--cream);
+}
+
+.solutions-section .section-number {
+  color: #d5aeb8;
+}
+
+.solutions-section .section-heading p {
+  color: rgba(243, 235, 221, 0.62);
+}
+
+.environment-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-top: 1px solid rgba(243, 235, 221, 0.16);
+  border-left: 1px solid rgba(243, 235, 221, 0.16);
+}
+
+.environment-card {
+  min-height: 285px;
+  padding: 26px;
+  position: relative;
+  border-right: 1px solid rgba(243, 235, 221, 0.16);
+  border-bottom: 1px solid rgba(243, 235, 221, 0.16);
+  transition: background 200ms ease;
+}
+
+.environment-card:hover {
+  background: rgba(243, 235, 221, 0.07);
+}
+
+.environment-number {
+  position: absolute;
+  top: 26px;
+  right: 26px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  opacity: 0.35;
+}
+
+.environment-card svg {
+  color: #d5aeb8;
+}
+
+.environment-card h3 {
+  margin: 75px 0 14px;
+  font-size: 19px;
+}
+
+.environment-card p {
+  margin: 0;
+  color: rgba(243, 235, 221, 0.58);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.supporting-capability {
+  margin: 30px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(243, 235, 221, 0.58);
+  font-size: 12px;
+}
+
+.supporting-capability svg {
+  color: #d5aeb8;
+  flex-shrink: 0;
+}
+
 .products-section {
   background: var(--cream);
+  padding-bottom: 104px;
 }
 
 .product-list {
@@ -613,8 +798,9 @@ a {
 .product-note {
   margin-top: 28px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
   font-family: "IBM Plex Mono", monospace;
   font-size: 9px;
   letter-spacing: 0.07em;
@@ -637,6 +823,7 @@ a {
 
 .about-section {
   background: var(--off-white);
+  padding-top: 92px;
 }
 
 .about-grid {
@@ -886,6 +1073,24 @@ a {
     margin-bottom: 45px;
   }
 
+  .services-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .service-card,
+  .service-card:nth-child(4),
+  .service-card:nth-child(5) {
+    grid-column: span 1;
+  }
+
+  .service-card:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .environment-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .about-grid {
     grid-template-columns: 1fr;
     gap: 45px;
@@ -965,6 +1170,11 @@ a {
     font-size: clamp(52px, 15vw, 75px);
   }
 
+  .eyebrow {
+    max-width: 330px;
+    line-height: 1.7;
+  }
+
   .hero-text {
     margin-top: 28px;
     font-size: 15px;
@@ -1020,6 +1230,23 @@ a {
 
   .solution-grid {
     grid-template-columns: 1fr;
+  }
+
+  .services-grid,
+  .environment-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-card,
+  .service-card:nth-child(4),
+  .service-card:nth-child(5),
+  .service-card:last-child {
+    grid-column: auto;
+    min-height: 350px;
+  }
+
+  .environment-card {
+    min-height: 240px;
   }
 
   .solution-card {

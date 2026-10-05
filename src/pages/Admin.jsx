@@ -1,24 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
-
-const categories = [
-  {
-    id: "networking",
-    name: "Networking Equipment",
-  },
-  {
-    id: "cctv",
-    name: "CCTV & Recording",
-  },
-  {
-    id: "fibre",
-    name: "Fibre & FTTH",
-  },
-  {
-    id: "access-security",
-    name: "Access & Security",
-  },
-];
+import { categories } from "../data/categories";
 
 const emptyProduct = {
   id: null,
