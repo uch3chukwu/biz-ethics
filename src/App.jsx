@@ -55,5 +55,29 @@ function Home() {
   </div>;
 }
 
-function App() { return <Routes><Route path="/" element={<Home />} /><Route path="/products" element={<Products />} /><Route path="/admin" element={<Admin />} /></Routes>; }
+function NotFound() {
+  return (
+    <main className="not-found-page">
+      <div className="container not-found-content">
+        <span className="section-number">404 / PAGE NOT FOUND</span>
+        <h1>That page could not be found.</h1>
+        <p>The link may be out of date, or the page may have moved.</p>
+        <Link to="/" className="button button-primary">
+          Return home <ArrowUpRight size={18} />
+        </Link>
+      </div>
+    </main>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/products" element={<Products />} />
+      <Route path="/admin" element={<Admin />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+}
 export default App;

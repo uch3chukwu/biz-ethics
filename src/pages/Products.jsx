@@ -25,6 +25,25 @@ import Footer from "../Components/Footer";
 
 import "./Products.css";
 
+function ProductImage({ imageUrl, alt }) {
+  const [hasFailed, setHasFailed] = useState(false);
+
+  return (
+    <div className="product-image">
+      {imageUrl && !hasFailed ? (
+        <img
+          src={imageUrl}
+          alt={alt}
+          loading="lazy"
+          onError={() => setHasFailed(true)}
+        />
+      ) : (
+        <span>PRODUCT IMAGE</span>
+      )}
+    </div>
+  );
+}
+
 function Products() {
   const [searchParams, setSearchParams] =
     useSearchParams();
@@ -301,20 +320,13 @@ function Products() {
                                   className="catalogue-product"
                                   key={product.id}
                                 >
-                                  <div className="product-image">
-                                    {product.image_url ? (
-                                      <img
-                                        src={
-                                          product.image_url
-                                        }
-                                        alt={`${product.manufacturer} ${product.name}`}
-                                      />
-                                    ) : (
-                                      <span>
-                                        PRODUCT IMAGE
-                                      </span>
-                                    )}
-                                  </div>
+                                  <ProductImage
+                                    key={product.image_url || "placeholder"}
+                                    imageUrl={product.image_url}
+                                    alt={[product.manufacturer, product.name]
+                                      .filter(Boolean)
+                                      .join(" ") || "Product image"}
+                                  />
 
                                   <div className="catalogue-product-info">
                                     <div className="product-topline">
