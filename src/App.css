@@ -606,11 +606,6 @@ a {
   grid-column: span 3;
 }
 
-.service-card:hover {
-  background: var(--wine);
-  color: var(--cream);
-}
-
 .service-image {
   position: absolute;
   inset: 0;
@@ -619,11 +614,6 @@ a {
   filter: grayscale(100%);
   opacity: 0.22;
   transition: opacity 250ms ease, transform 500ms ease;
-}
-
-.service-card:hover .service-image {
-  opacity: 0.36;
-  transform: scale(1.04);
 }
 
 .service-top,
@@ -642,10 +632,6 @@ a {
   transition: color 200ms ease;
 }
 
-.service-card:hover .service-top {
-  color: var(--cream);
-}
-
 .service-content h3 {
   margin: 0 0 14px;
   font-size: 25px;
@@ -660,8 +646,24 @@ a {
   transition: color 200ms ease;
 }
 
-.service-card:hover .service-content p {
-  color: rgba(243, 235, 221, 0.75);
+@media (hover: hover) and (pointer: fine) {
+  .service-card:hover {
+    background: var(--wine);
+    color: var(--cream);
+  }
+
+  .service-card:hover .service-image {
+    opacity: 0.36;
+    transform: scale(1.04);
+  }
+
+  .service-card:hover .service-top {
+    color: var(--cream);
+  }
+
+  .service-card:hover .service-content p {
+    color: rgba(243, 235, 221, 0.75);
+  }
 }
 
 .service-details {
@@ -909,6 +911,10 @@ a {
   background: var(--wine-dark);
   color: var(--cream);
   padding: 110px 0;
+}
+
+.cta-number {
+  color: #d5aeb8;
 }
 
 .cta-inner {
@@ -1163,11 +1169,12 @@ a {
   }
 
   .hero {
-    padding-top: 115px;
+    padding: 108px 0 64px;
   }
 
   .hero h1 {
-    font-size: clamp(52px, 15vw, 75px);
+    font-size: clamp(40px, 12.5vw, 62px);
+    line-height: 0.96;
   }
 
   .eyebrow {
@@ -1190,12 +1197,12 @@ a {
   }
 
   .hero-visual {
-    min-height: 390px;
+    min-height: 350px;
   }
 
   .system-card {
     width: calc(100% - 20px);
-    min-height: 370px;
+    min-height: 350px;
     padding: 20px;
   }
 
@@ -1219,7 +1226,7 @@ a {
   }
 
   .section {
-    padding: 75px 0;
+    padding: 68px 0;
   }
 
   .section-heading h2,
@@ -1232,9 +1239,10 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .services-grid,
-  .environment-grid {
+  .services-grid {
     grid-template-columns: 1fr;
+    gap: 14px;
+    border: 0;
   }
 
   .service-card,
@@ -1242,11 +1250,30 @@ a {
   .service-card:nth-child(5),
   .service-card:last-child {
     grid-column: auto;
-    min-height: 350px;
+    min-height: 330px;
+    border: 1px solid var(--line);
+  }
+
+  .environment-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .environment-card:last-child {
+    grid-column: 1 / -1;
   }
 
   .environment-card {
-    min-height: 240px;
+    min-height: 225px;
+    padding: 22px;
+  }
+
+  .environment-number {
+    top: 22px;
+    right: 22px;
+  }
+
+  .environment-card h3 {
+    margin-top: 62px;
   }
 
   .solution-card {
@@ -1254,12 +1281,38 @@ a {
   }
 
   .product-row {
-    grid-template-columns: 35px 1fr 25px;
-    gap: 12px;
+    grid-template-columns: 32px minmax(0, 1fr) 22px;
+    grid-template-areas:
+      "index name arrow"
+      "index description arrow";
+    column-gap: 10px;
+    row-gap: 5px;
+    padding: 20px 0;
+  }
+
+  .product-index {
+    grid-area: index;
+    align-self: start;
+    padding-top: 4px;
+  }
+
+  .product-name {
+    grid-area: name;
+    min-width: 0;
+    font-size: 15px;
   }
 
   .product-description {
-    display: none;
+    grid-area: description;
+    display: block;
+    min-width: 0;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .product-row > svg {
+    grid-area: arrow;
+    align-self: center;
   }
 
   .product-note {
@@ -1273,7 +1326,12 @@ a {
   }
 
   .about-points {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 14px;
+  }
+
+  .about-points div:last-child {
+    grid-column: 1 / -1;
   }
 
   .cta-section {
@@ -1282,16 +1340,29 @@ a {
 
   .cta-actions {
     width: 100%;
+    min-width: 0;
+    flex-direction: row;
+  }
+
+  .cta-actions .button {
+    width: auto;
+    min-width: 0;
+    flex: 1;
   }
 
   .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-    padding-bottom: 50px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 38px 24px;
+    padding-bottom: 44px;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
   }
 
   .footer-bottom {
-    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 10px 20px;
   }
 
   .floating-whatsapp {
@@ -1308,6 +1379,39 @@ a {
     box-shadow: 0 10px 30px rgba(50, 16, 25, 0.25);
     font-size: 12px;
     font-weight: 700;
+  }
+}
+
+@media (min-width: 430px) and (max-width: 700px) {
+  .hero-actions {
+    flex-direction: row;
+  }
+
+  .hero-actions .button {
+    width: auto;
+    flex: 1;
+  }
+}
+
+@media (max-width: 350px) {
+  .environment-grid,
+  .about-points,
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .environment-card:last-child,
+  .about-points div:last-child,
+  .footer-brand {
+    grid-column: auto;
+  }
+
+  .cta-actions {
+    flex-direction: column;
+  }
+
+  .cta-actions .button {
+    width: 100%;
   }
 }
 
