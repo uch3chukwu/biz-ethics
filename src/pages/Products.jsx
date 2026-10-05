@@ -15,6 +15,10 @@ import {
 
 import { supabase } from "../lib/supabaseClient";
 import { categories } from "../data/categories";
+import {
+  createProductEnquiry,
+  createWhatsAppUrl,
+} from "../lib/whatsapp";
 
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
@@ -123,8 +127,8 @@ function Products() {
     )}`;
   };
 
-  const generalMessage = encodeURIComponent(
-    "Hello Biz-Ethics, I would like to make an enquiry about your products."
+  const generalEnquiryUrl = createWhatsAppUrl(
+    "Hello Biz Ethics, I would like to make an enquiry about your products."
   );
 
   return (
@@ -280,6 +284,18 @@ function Products() {
                                   ? product.specs
                                   : [];
 
+                              const formattedPrice =
+                                product.price !== null &&
+                                product.price !== undefined
+                                  ? formatPrice(product.price)
+                                  : "";
+
+                              const enquiry =
+                                createProductEnquiry(
+                                  product,
+                                  formattedPrice
+                                );
+
                               return (
                                 <article
                                   className="catalogue-product"
@@ -359,35 +375,25 @@ function Products() {
                                     <div className="product-bottom">
                                       <span
                                         className={
-                                          product.show_price &&
-                                          product.price !==
-                                            null &&
-                                          product.price !==
-                                            undefined
+                                          enquiry.hasListedPrice
                                             ? "product-price"
                                             : "product-price product-price-request"
                                         }
                                       >
-                                        {product.show_price &&
-                                        product.price !==
-                                          null &&
-                                        product.price !==
-                                          undefined
-                                          ? formatPrice(
-                                              product.price
-                                            )
+                                        {enquiry.hasListedPrice
+                                          ? formattedPrice
                                           : "Request a quote"}
                                       </span>
 
                                       <a
-                                        href={`https://wa.me/2348033883255?text=${encodeURIComponent(
-                                          `Hello Biz-Ethics, I'm interested in the ${product.manufacturer} ${product.name}${product.model ? ` (${product.model})` : ""}. Is it available?`
-                                        )}`}
+                                        href={enquiry.url}
                                         target="_blank"
                                         rel="noreferrer"
                                         className="product-enquiry"
                                       >
-                                        Enquire about this product
+                                        {enquiry.hasListedPrice
+                                          ? "Enquire"
+                                          : "Request a quote"}
                                         <ArrowUpRight
                                           size={15}
                                         />
@@ -414,7 +420,7 @@ function Products() {
                           </p>
 
                           <a
-                            href={`https://wa.me/2348033883255?text=${generalMessage}`}
+                            href={generalEnquiryUrl}
                             target="_blank"
                             rel="noreferrer"
                           >
@@ -456,7 +462,7 @@ function Products() {
             </div>
 
             <a
-              href={`https://wa.me/2348033883255?text=${generalMessage}`}
+              href={generalEnquiryUrl}
               target="_blank"
               rel="noreferrer"
               className="catalogue-cta-button"

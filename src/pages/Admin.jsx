@@ -193,6 +193,12 @@ function AdminDashboard({ session }) {
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [imageUploading, setImageUploading] =
+    useState(false);
+  const [activeProductAction, setActiveProductAction] =
+    useState(null);
+  const [manufacturerSaving, setManufacturerSaving] =
+    useState(false);
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -271,52 +277,56 @@ function AdminDashboard({ session }) {
     setLoading(true);
     setError("");
 
-    const [
-      manufacturersResult,
-      productsResult,
-    ] = await Promise.all([
-      supabase
-        .from("manufacturers")
-        .select("*")
-        .order("name"),
+    try {
+      const [
+        manufacturersResult,
+        productsResult,
+      ] = await Promise.all([
+        supabase
+          .from("manufacturers")
+          .select("*")
+          .order("name"),
 
-      supabase
-        .from("products")
-        .select("*")
-        .order("created_at", {
-          ascending: false,
-        }),
-    ]);
+        supabase
+          .from("products")
+          .select("*")
+          .order("created_at", {
+            ascending: false,
+          }),
+      ]);
 
-    if (manufacturersResult.error) {
+      if (manufacturersResult.error) {
+        setError(manufacturersResult.error.message);
+        return false;
+      }
+
+      if (productsResult.error) {
+        setError(productsResult.error.message);
+        return false;
+      }
+
+      setManufacturers(manufacturersResult.data || []);
+      setProducts(productsResult.data || []);
+      return true;
+    } catch (loadError) {
       setError(
-        manufacturersResult.error.message
+        loadError.message ||
+          "Unable to load catalogue data. Please try again."
       );
+      return false;
+    } finally {
       setLoading(false);
-      return;
     }
-
-    if (productsResult.error) {
-      setError(
-        productsResult.error.message
-      );
-      setLoading(false);
-      return;
-    }
-
-    setManufacturers(
-      manufacturersResult.data || []
-    );
-
-    setProducts(
-      productsResult.data || []
-    );
-
-    setLoading(false);
   };
 
   useEffect(() => {
-    loadData();
+    const timer = window.setTimeout(() => {
+      loadData();
+    }, 0);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
   }, []);
 
   useEffect(() => {
@@ -335,6 +345,13 @@ function AdminDashboard({ session }) {
   const resetImageState = () => {
     setSelectedImage(null);
     setImagePreview("");
+  };
+
+  const getCategoryName = (categoryId) => {
+    return (
+      categories.find((category) => category.id === categoryId)
+        ?.name || categoryId
+    );
   };
 
   const clearFilters = () => {
@@ -473,7 +490,7 @@ function AdminDashboard({ session }) {
     imagePath
   ) => {
     if (!imagePath) {
-      return;
+      return null;
     }
 
     const { error: removeError } =
@@ -481,18 +498,17 @@ function AdminDashboard({ session }) {
         .from("product-images")
         .remove([imagePath]);
 
-    if (removeError) {
-      console.error(
-        "Could not remove product image:",
-        removeError.message
-      );
-    }
+    return removeError || null;
   };
 
   const handleProductSubmit = async (
     event
   ) => {
     event.preventDefault();
+
+    if (saving) {
+      return;
+    }
 
     resetMessages();
     setSaving(true);
@@ -586,11 +602,18 @@ function AdminDashboard({ session }) {
       }
 
       if (selectedImage) {
-        const uploadedImage =
-          await uploadProductImage(
+        setImageUploading(true);
+
+        let uploadedImage;
+
+        try {
+          uploadedImage = await uploadProductImage(
             selectedImage,
             payload.name
           );
+        } finally {
+          setImageUploading(false);
+        }
 
         payload.image_url =
           uploadedImage.image_url;
@@ -634,9 +657,15 @@ function AdminDashboard({ session }) {
         productForm.image_path !==
           uploadedImagePath
       ) {
-        await removeProductImage(
+        const cleanupError = await removeProductImage(
           productForm.image_path
         );
+
+        if (cleanupError) {
+          setError(
+            `Product updated, but the previous image could not be removed: ${cleanupError.message}`
+          );
+        }
       }
 
       setSuccess(
@@ -671,6 +700,7 @@ function AdminDashboard({ session }) {
           "Something went wrong while saving the product."
       );
     } finally {
+      setImageUploading(false);
       setSaving(false);
     }
   };
@@ -758,6 +788,10 @@ function AdminDashboard({ session }) {
   const deleteProduct = async (
     product
   ) => {
+    if (activeProductAction) {
+      return;
+    }
+
     const confirmed = window.confirm(
       `Delete "${product.name}"? This will also remove its image and cannot be undone.`
     );
@@ -768,57 +802,94 @@ function AdminDashboard({ session }) {
 
     resetMessages();
 
-    const { error: deleteError } =
-      await supabase
-        .from("products")
-        .delete()
-        .eq("id", product.id);
+    setActiveProductAction(`delete-${product.id}`);
 
-    if (deleteError) {
-      setError(deleteError.message);
-      return;
+    try {
+      const { error: deleteError } =
+        await supabase
+          .from("products")
+          .delete()
+          .eq("id", product.id);
+
+      if (deleteError) {
+        setError(deleteError.message);
+        return;
+      }
+
+      const cleanupError = await removeProductImage(
+        product.image_path
+      );
+
+      if (productForm.id === product.id) {
+        cancelEdit();
+      }
+
+      setSuccess(
+        cleanupError
+          ? "Product deleted, but its image could not be removed from storage."
+          : "Product deleted successfully."
+      );
+
+      await loadData();
+    } catch (deleteFailure) {
+      setError(
+        deleteFailure.message ||
+          "Unable to delete this product. Please try again."
+      );
+    } finally {
+      setActiveProductAction(null);
     }
-
-    await removeProductImage(
-      product.image_path
-    );
-
-    if (productForm.id === product.id) {
-      cancelEdit();
-    }
-
-    setSuccess(
-      "Product deleted successfully."
-    );
-
-    await loadData();
   };
 
   const toggleAvailability = async (
     product
   ) => {
-    resetMessages();
-
-    const { error: updateError } =
-      await supabase
-        .from("products")
-        .update({
-          available: !product.available,
-        })
-        .eq("id", product.id);
-
-    if (updateError) {
-      setError(updateError.message);
+    if (activeProductAction) {
       return;
     }
 
-    await loadData();
+    resetMessages();
+    setActiveProductAction(`availability-${product.id}`);
+
+    try {
+      const { error: updateError } =
+        await supabase
+          .from("products")
+          .update({
+            available: !product.available,
+          })
+          .eq("id", product.id);
+
+      if (updateError) {
+        setError(updateError.message);
+        return;
+      }
+
+      setSuccess(
+        product.available
+          ? "Product hidden from the catalogue."
+          : "Product is now visible in the catalogue."
+      );
+
+      await loadData();
+    } catch (updateFailure) {
+      setError(
+        updateFailure.message ||
+          "Unable to update product availability."
+      );
+    } finally {
+      setActiveProductAction(null);
+    }
   };
 
   const addManufacturer = async (
     event
   ) => {
     event.preventDefault();
+
+    if (manufacturerSaving) {
+      return;
+    }
 
     resetMessages();
 
@@ -855,26 +926,33 @@ function AdminDashboard({ session }) {
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-+|-+$/g, "");
 
-    const { error: insertError } =
-      await supabase
-        .from("manufacturers")
-        .insert({
-          name,
-          slug,
-        });
+    setManufacturerSaving(true);
 
-    if (insertError) {
-      setError(insertError.message);
-      return;
+    try {
+      const { error: insertError } =
+        await supabase
+          .from("manufacturers")
+          .insert({
+            name,
+            slug,
+          });
+
+      if (insertError) {
+        setError(insertError.message);
+        return;
+      }
+
+      setManufacturerName("");
+      setSuccess("Manufacturer added successfully.");
+      await loadData();
+    } catch (manufacturerError) {
+      setError(
+        manufacturerError.message ||
+          "Unable to add this manufacturer."
+      );
+    } finally {
+      setManufacturerSaving(false);
     }
-
-    setManufacturerName("");
-
-    setSuccess(
-      "Manufacturer added successfully."
-    );
-
-    await loadData();
   };
 
   const startManufacturerEdit = (
@@ -1099,13 +1177,19 @@ function AdminDashboard({ session }) {
         </header>
 
         {error && (
-          <div className="admin-message admin-message-error">
+          <div
+            className="admin-message admin-message-error"
+            role="alert"
+          >
             {error}
           </div>
         )}
 
         {success && (
-          <div className="admin-message admin-message-success">
+          <div
+            className="admin-message admin-message-success"
+            role="status"
+          >
             {success}
           </div>
         )}
@@ -1164,7 +1248,7 @@ function AdminDashboard({ session }) {
                     />
                   ) : (
                     <span>
-                      Choose image
+                      Choose product image
                     </span>
                   )}
                 </label>
@@ -1176,10 +1260,15 @@ function AdminDashboard({ session }) {
                   onChange={
                     handleImageChange
                   }
+                  disabled={saving}
                 />
 
                 <span className="admin-help">
-                  JPG, PNG or WebP. Maximum 5 MB.
+                  {imageUploading
+                    ? "Uploading image..."
+                    : imagePreview
+                      ? "Choose a new file to replace this image. JPG, PNG or WebP, maximum 5 MB."
+                      : "JPG, PNG or WebP. Maximum 5 MB."}
                 </span>
               </div>
 
@@ -1197,6 +1286,8 @@ function AdminDashboard({ session }) {
                       event.target.value
                     )
                   }
+                  required
+                  disabled={saving}
                 >
                   <option value="">
                     Select manufacturer
@@ -1233,6 +1324,7 @@ function AdminDashboard({ session }) {
                   }
                   placeholder="e.g. hEX S"
                   required
+                  disabled={saving}
                 />
               </label>
 
@@ -1253,6 +1345,7 @@ function AdminDashboard({ session }) {
                     )
                   }
                   placeholder="e.g. RB760iGS"
+                  disabled={saving}
                 />
               </label>
 
@@ -1271,6 +1364,7 @@ function AdminDashboard({ session }) {
                       event.target.value
                     )
                   }
+                  disabled={saving}
                 >
                   {categories.map(
                     (category) => (
@@ -1308,6 +1402,7 @@ function AdminDashboard({ session }) {
                         )
                       }
                       placeholder="Leave blank for quote"
+                      disabled={saving}
                     />
                   </div>
                 </label>
@@ -1319,9 +1414,8 @@ function AdminDashboard({ session }) {
                       productForm.show_price
                     }
                     disabled={
-                      String(
-                        productForm.price
-                      ).trim() === ""
+                      saving ||
+                      String(productForm.price).trim() === ""
                     }
                     onChange={(event) =>
                       updateProductField(
@@ -1357,6 +1451,7 @@ function AdminDashboard({ session }) {
                   }
                   rows="5"
                   placeholder="Short description of the product."
+                  disabled={saving}
                 />
               </label>
 
@@ -1382,6 +1477,7 @@ Example:
 1 × SFP
 RouterOS
 Dual-core processor`}
+                  disabled={saving}
                 />
 
                 <span className="admin-help">
@@ -1404,6 +1500,7 @@ Dual-core processor`}
                         event.target.checked
                       )
                     }
+                    disabled={saving}
                   />
 
                   Available
@@ -1421,6 +1518,7 @@ Dual-core processor`}
                         event.target.checked
                       )
                     }
+                    disabled={saving}
                   />
 
                   Biz-Ethics product
@@ -1436,7 +1534,9 @@ Dual-core processor`}
                   disabled={saving}
                 >
                   {saving
-                    ? "Saving..."
+                    ? imageUploading
+                      ? "Uploading image..."
+                      : "Saving..."
                     : editingProduct
                       ? "Update product"
                       : "Save product"}
@@ -1447,6 +1547,7 @@ Dual-core processor`}
                     type="button"
                     className="admin-secondary-button"
                     onClick={cancelEdit}
+                    disabled={saving}
                   >
                     Cancel
                   </button>
@@ -1487,13 +1588,15 @@ Dual-core processor`}
                   )
                 }
                 placeholder="e.g. MikroTik"
+                disabled={manufacturerSaving}
               />
 
               <button
                 type="submit"
                 className="admin-primary-button"
+                disabled={manufacturerSaving}
               >
-                Add
+                {manufacturerSaving ? "Adding..." : "Add"}
               </button>
             </form>
 
@@ -1824,7 +1927,7 @@ Dual-core processor`}
 
                     <div className="admin-product-meta">
                       <span>
-                        {product.category}
+                        {getCategoryName(product.category)}
                       </span>
 
                       <span>
@@ -1863,8 +1966,12 @@ Dual-core processor`}
                             product
                           )
                         }
+                        disabled={Boolean(activeProductAction)}
                       >
-                        {product.available
+                        {activeProductAction ===
+                        `availability-${product.id}`
+                          ? "Updating..."
+                          : product.available
                           ? "Hide"
                           : "Show"}
                       </button>
@@ -1877,6 +1984,7 @@ Dual-core processor`}
                             product
                           )
                         }
+                        disabled={Boolean(activeProductAction)}
                       >
                         Edit
                       </button>
@@ -1889,8 +1997,12 @@ Dual-core processor`}
                             product
                           )
                         }
+                        disabled={Boolean(activeProductAction)}
                       >
-                        Delete
+                        {activeProductAction ===
+                        `delete-${product.id}`
+                          ? "Deleting..."
+                          : "Delete"}
                       </button>
                     </div>
                   </article>
